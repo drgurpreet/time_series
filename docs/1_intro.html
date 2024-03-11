@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hands-on Workshop on Time Series Analysis and Forecasting using R: IPHACON 2024 - Introduction to time series analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href=".//images/spatial_hex.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="site_libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
+<script src="site_libs/tabwid-1.1.3/tabwid.js"></script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/spatial_hex.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Hands-on Workshop on Time Series Analysis and Forecasting using R: IPHACON 2024</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./1_intro.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Introduction to time series analysis</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./2_EDA.html" rel="" target="">
+ <span class="menu-text">Handling Time series datasets</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./2.1_EDA.html" rel="" target="">
+ <span class="menu-text">Exploratory Time Series Analysis</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./4_Model.html" rel="" target="">
+ <span class="menu-text">Workflow: Modeltime</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<p><img src=".\images/spatial_hex.png" class="img-fluid" style="width:65.0%"></p>
+</div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#unveiling-the-dynamics-of-time-an-introduction-to-time-series-data-analysis-and-forecasting." id="toc-unveiling-the-dynamics-of-time-an-introduction-to-time-series-data-analysis-and-forecasting." class="nav-link active" data-scroll-target="#unveiling-the-dynamics-of-time-an-introduction-to-time-series-data-analysis-and-forecasting."><span class="header-section-number">1</span> Unveiling the Dynamics of Time: An Introduction to Time Series Data Analysis and Forecasting.</a></li>
+  <li><a href="#what-is-time-series-data" id="toc-what-is-time-series-data" class="nav-link" data-scroll-target="#what-is-time-series-data"><span class="header-section-number">2</span> What is time series data?</a></li>
+  <li><a href="#why-time-series-analysis-and-forecasting" id="toc-why-time-series-analysis-and-forecasting" class="nav-link" data-scroll-target="#why-time-series-analysis-and-forecasting"><span class="header-section-number">3</span> Why time series analysis and forecasting?</a>
+  <ul>
+  <li><a href="#time-series-analysis." id="toc-time-series-analysis." class="nav-link" data-scroll-target="#time-series-analysis."><span class="header-section-number">3.1</span> Time series analysis.</a></li>
+  <li><a href="#forecasting" id="toc-forecasting" class="nav-link" data-scroll-target="#forecasting"><span class="header-section-number">3.2</span> Forecasting</a></li>
+  </ul></li>
+  <li><a href="#datasets-used-in-the-workshop." id="toc-datasets-used-in-the-workshop." class="nav-link" data-scroll-target="#datasets-used-in-the-workshop."><span class="header-section-number">4</span> Datasets used in the workshop.</a>
+  <ul>
+  <li><a href="#time-series-air-quality-data-of-manali-2010-2023" id="toc-time-series-air-quality-data-of-manali-2010-2023" class="nav-link" data-scroll-target="#time-series-air-quality-data-of-manali-2010-2023"><span class="header-section-number">4.1</span> Time Series Air Quality Data of Manali (2010-2023)</a></li>
+  <li><a href="#global-deaths-from-earthquakes-1900-2023" id="toc-global-deaths-from-earthquakes-1900-2023" class="nav-link" data-scroll-target="#global-deaths-from-earthquakes-1900-2023"><span class="header-section-number">4.2</span> Global Deaths from Earthquakes (1900-2023)</a></li>
+  <li><a href="#monthly-road-traffic-accidents-in-india-2014-2018" id="toc-monthly-road-traffic-accidents-in-india-2014-2018" class="nav-link" data-scroll-target="#monthly-road-traffic-accidents-in-india-2014-2018"><span class="header-section-number">4.3</span> Monthly Road Traffic accidents in India (2014-2018)</a></li>
+  <li><a href="#maternal-mortality-ratio-india-2000-2020" id="toc-maternal-mortality-ratio-india-2000-2020" class="nav-link" data-scroll-target="#maternal-mortality-ratio-india-2000-2020"><span class="header-section-number">4.4</span> Maternal Mortality Ratio: India (2000-2020)</a></li>
+  <li><a href="#campylobacter-cases-in-germany-2001-2011" id="toc-campylobacter-cases-in-germany-2001-2011" class="nav-link" data-scroll-target="#campylobacter-cases-in-germany-2001-2011"><span class="header-section-number">4.5</span> Campylobacter cases in Germany (2001-2011)</a></li>
+  <li><a href="#m750-data" id="toc-m750-data" class="nav-link" data-scroll-target="#m750-data"><span class="header-section-number">4.6</span> M750 data</a></li>
+  <li><a href="#anti-diabetes-drug-sales" id="toc-anti-diabetes-drug-sales" class="nav-link" data-scroll-target="#anti-diabetes-drug-sales"><span class="header-section-number">4.7</span> Anti-Diabetes drug sales</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Introduction to time series analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+<p>Welcome to the world of Time Series Analysis and forecasting!!</p>
+<section id="unveiling-the-dynamics-of-time-an-introduction-to-time-series-data-analysis-and-forecasting." class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="unveiling-the-dynamics-of-time-an-introduction-to-time-series-data-analysis-and-forecasting."><span class="header-section-number">1</span> Unveiling the Dynamics of Time: An Introduction to Time Series Data Analysis and Forecasting.</h2>
+<p>In the ever-evolving landscape of data science, understanding the intricacies of time series data has become increasingly crucial. As we embark on a journey into the realm of temporal patterns and sequential dependencies, this workshop aims to demystify the concepts and methodologies that constitute time series analysis and forecasting. Time series data, a distinctive form of information, holds the key to unraveling trends, forecasting future events, and gaining profound insights into diverse fields such as finance, economics, climate science, and beyond. So, <strong>lets dive in!!</strong>.</p>
+</section>
+<section id="what-is-time-series-data" class="level2 page-columns page-full" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="what-is-time-series-data"><span class="header-section-number">2</span> What is time series data?</h2>
+<p>Time series data is a type of data that is collected or recorded over a sequence of time intervals. Time series data is one of the most common formats of data, and it is used to describe an event or phenomena that occurs over time. Time series data has a simple requirement—its values need to be captured at equally spaced time intervals, such as seconds, minutes, hours, days, months, and so on. This important characteristic is one of the main attributes of the series and is known as the frequency of the series. We usually add the frequency along with the name of the series. In healthcare, some of the examples of time series data include:</p>
+<ul>
+<li>Daily patient records</li>
+<li>Hourly test results</li>
+<li>Monthly disease incidence rates</li>
+<li>Daily air quality indicators</li>
+<li>Weekly admissions to an emergency department</li>
+<li>Annual expenditures on health care</li>
+</ul>
+<p>A univariate time series is a sequence of measurements of the same variable collected over time.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Think! How data collection change your analysis strategy?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>How would you collect data regarding hospitalizations? Would you like to have data wherein the last hospitalization record is maintained and updated or would you like to have a single data entry point for each hospitalization?</p>
+</div>
+</div>
+</div></div></section>
+<section id="why-time-series-analysis-and-forecasting" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="why-time-series-analysis-and-forecasting"><span class="header-section-number">3</span> Why time series analysis and forecasting?</h2>
+<section id="time-series-analysis." class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="time-series-analysis."><span class="header-section-number">3.1</span> Time series analysis.</h3>
+<p>Time series analysis is the art of extracting meaningful insights and revealing patterns from time series data using statistical and data visualization approaches. These insights and patterns can then be utilized to explore past events and forecast future values in the series. There are three different aims of Time series Analysis:-</p>
+<ul>
+<li>Descriptive analysis.</li>
+<li>Explanatory analysis.</li>
+<li>Forecasting.</li>
+</ul>
+</section>
+<section id="forecasting" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="forecasting"><span class="header-section-number">3.2</span> Forecasting</h3>
+<p>Forecasting in healthcare is crucial for various aspects of planning, resource allocation, and managing patient care efficiently. Here are some examples where forecasting plays a vital role:</p>
+<ul>
+<li><p><strong>Disease Outbreaks and Epidemic Prediction</strong>: Forecasting the spread of infectious diseases, such as influenza or COVID-19, helps in preparing healthcare systems for potential surges in cases. It aids in vaccine distribution, setting up quarantine measures, and ensuring sufficient medical supplies and staff are available.</p></li>
+<li><p><strong>Patient Admission Rates</strong>: Hospitals and clinics use forecasting to predict patient admission rates. This helps in staffing decisions, ensuring there are enough healthcare professionals on duty to meet demand, and in planning bed occupancy rates to optimize the use of available resources.</p></li>
+<li><p><strong>Pharmaceutical Supply Chain</strong>: Forecasting is used to predict the demand for various medications, helping pharmacies and hospitals maintain an optimal inventory. This is crucial for managing costs, reducing waste, and ensuring that essential medicines are always in stock, especially for chronic conditions or in emergency situations.</p></li>
+<li><p><strong>Surgical and Procedure Needs</strong>: By predicting the demand for certain types of surgeries or medical procedures, healthcare providers can better schedule operating rooms, allocate medical staff, and ensure the necessary equipment and supplies are available, thereby improving patient care and operational efficiency.</p></li>
+<li><p><strong>Staffing Requirements</strong>: Forecasting helps predict staffing needs based on various factors, including seasonal trends in illnesses, epidemic outbreaks, or changing demographics. This ensures that there are enough healthcare workers, including doctors, nurses, and support staff, to provide quality care without overburdening the existing workforce.</p></li>
+<li><p><strong>Healthcare Policy and Infrastructure Planning</strong>: Long-term forecasts are used by policymakers to plan healthcare infrastructure, such as the construction of new hospitals or clinics, expansion of existing facilities, and investment in new technologies. These forecasts consider population growth, aging, and changes in disease prevalence.</p></li>
+<li><p><strong>Preventive Care Needs</strong>: By forecasting trends in various diseases or health conditions, healthcare providers can plan and implement preventive care measures more effectively. This could include vaccination campaigns, public health initiatives, or screening programs aimed at early detection of conditions like cancer, diabetes, or heart disease.</p></li>
+</ul>
+<p>Forecasting in healthcare utilizes a variety of data sources, including historical health data, demographic trends, environmental factors, and epidemiological models. The goal is to make informed decisions that improve patient care, enhance operational efficiency, and effectively manage resources. However, it is important to understand that the predictability of an event or a quantity depends on several factors including:</p>
+<ul>
+<li>How well we understand the factors that contribute to it;</li>
+<li>How much data is available;</li>
+<li>How similar the future is to the past;</li>
+<li>Whether the forecasts can affect the thing we are trying to forecast.</li>
+</ul>
+</section>
+</section>
+<section id="datasets-used-in-the-workshop." class="level2 page-columns page-full" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="datasets-used-in-the-workshop."><span class="header-section-number">4</span> Datasets used in the workshop.</h2>
+<section id="time-series-air-quality-data-of-manali-2010-2023" class="level3 page-columns page-full" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="time-series-air-quality-data-of-manali-2010-2023"><span class="header-section-number">4.1</span> Time Series Air Quality Data of Manali (2010-2023)</h3>
+<div class="cell page-columns page-full" data-hash="1_intro_cache/html/tbl-aqi_f0aa14e33d14cba2140451094e72face">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div id="tbl-aqi" class="anchored">
+
+<div class="tabwid"><style>.cl-41f37872{}.cl-41e5f1de{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-41ead320{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-41ead32a{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-41eaf3aa{width:1.627in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3be{width:0.735in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3bf{width:1.211in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3c8{width:1.704in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3c9{width:1.222in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3ca{width:1.265in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3d2{width:1.158in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3d3{width:1.102in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3d4{width:1.158in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3dc{width:1.056in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3dd{width:1.01in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3de{width:1.091in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3df{width:1.273in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3e6{width:1.109in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3e7{width:0.998in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3e8{width:0.964in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3f0{width:0.548in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3f1{width:1.236in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3f2{width:1.627in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3fa{width:0.735in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3fb{width:1.211in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3fc{width:1.704in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf3fd{width:1.222in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf404{width:1.265in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf405{width:1.158in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf40e{width:1.102in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf40f{width:1.158in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf410{width:1.056in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf411{width:1.01in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf418{width:1.091in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf419{width:1.273in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf41a{width:1.109in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf41b{width:0.998in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf41c{width:0.964in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf422{width:0.548in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf423{width:1.236in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf424{width:1.627in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf425{width:0.735in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf426{width:1.211in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf42c{width:1.704in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf42d{width:1.222in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf42e{width:1.265in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf436{width:1.158in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf437{width:1.102in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf438{width:1.158in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf440{width:1.056in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf441{width:1.01in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf442{width:1.091in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf44a{width:1.273in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf44b{width:1.109in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf44c{width:0.998in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf454{width:0.964in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf455{width:0.548in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41eaf456{width:1.236in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-41f37872"><caption>Table&nbsp;1:  <p>Overview: Air Quality</p> </caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-41eaf3aa"><p class="cl-41ead320"><span class="cl-41e5f1de">Regional Office Lab</span></p></th><th class="cl-41eaf3be"><p class="cl-41ead320"><span class="cl-41e5f1de">City</span></p></th><th class="cl-41eaf3bf"><p class="cl-41ead320"><span class="cl-41e5f1de">Station Name</span></p></th><th class="cl-41eaf3c8"><p class="cl-41ead32a"><span class="cl-41e5f1de">Sample Date</span></p></th><th class="cl-41eaf3c9"><p class="cl-41ead32a"><span class="cl-41e5f1de">PM10 (µg/m³)</span></p></th><th class="cl-41eaf3ca"><p class="cl-41ead32a"><span class="cl-41e5f1de">PM2.5 (µg/m³)</span></p></th><th class="cl-41eaf3d2"><p class="cl-41ead32a"><span class="cl-41e5f1de">SO₂ (µg/m³)</span></p></th><th class="cl-41eaf3d3"><p class="cl-41ead32a"><span class="cl-41e5f1de">NOₓ (µg/m³)</span></p></th><th class="cl-41eaf3d4"><p class="cl-41ead32a"><span class="cl-41e5f1de">NH₃ (µg/m³)</span></p></th><th class="cl-41eaf3dc"><p class="cl-41ead32a"><span class="cl-41e5f1de">O₃ (µg/m³)</span></p></th><th class="cl-41eaf3dd"><p class="cl-41ead32a"><span class="cl-41e5f1de">Pb (µg/m³)</span></p></th><th class="cl-41eaf3de"><p class="cl-41ead32a"><span class="cl-41e5f1de">CO (mg/m³)</span></p></th><th class="cl-41eaf3df"><p class="cl-41ead32a"><span class="cl-41e5f1de">C₆H₆ (µg/m³)</span></p></th><th class="cl-41eaf3e6"><p class="cl-41ead32a"><span class="cl-41e5f1de">BaP (ng/m³)</span></p></th><th class="cl-41eaf3e7"><p class="cl-41ead32a"><span class="cl-41e5f1de">As (ng/m³)</span></p></th><th class="cl-41eaf3e8"><p class="cl-41ead32a"><span class="cl-41e5f1de">Ni (ng/m³)</span></p></th><th class="cl-41eaf3f0"><p class="cl-41ead320"><span class="cl-41e5f1de">AQI</span></p></th><th class="cl-41eaf3f1"><p class="cl-41ead320"><span class="cl-41e5f1de">AQI Condition</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-41eaf3f2"><p class="cl-41ead320"><span class="cl-41e5f1de">RO-Kullu</span></p></td><td class="cl-41eaf3fa"><p class="cl-41ead320"><span class="cl-41e5f1de">Manali</span></p></td><td class="cl-41eaf3fb"><p class="cl-41ead320"><span class="cl-41e5f1de">Manali-I</span></p></td><td class="cl-41eaf3fc"><p class="cl-41ead32a"><span class="cl-41e5f1de">2020-04-08 00:00:00</span></p></td><td class="cl-41eaf3fd"><p class="cl-41ead32a"><span class="cl-41e5f1de">12.31</span></p></td><td class="cl-41eaf404"><p class="cl-41ead32a"><span class="cl-41e5f1de">8.31</span></p></td><td class="cl-41eaf405"><p class="cl-41ead32a"><span class="cl-41e5f1de">1.08</span></p></td><td class="cl-41eaf40e"><p class="cl-41ead32a"><span class="cl-41e5f1de">3.62</span></p></td><td class="cl-41eaf40f"><p class="cl-41ead32a"><span class="cl-41e5f1de">2.16</span></p></td><td class="cl-41eaf410"><p class="cl-41ead32a"><span class="cl-41e5f1de"></span></p></td><td class="cl-41eaf411"><p class="cl-41ead32a"><span class="cl-41e5f1de"></span></p></td><td class="cl-41eaf418"><p class="cl-41ead32a"><span class="cl-41e5f1de"></span></p></td><td class="cl-41eaf419"><p class="cl-41ead32a"><span class="cl-41e5f1de"></span></p></td><td class="cl-41eaf41a"><p class="cl-41ead32a"><span class="cl-41e5f1de"></span></p></td><td class="cl-41eaf41b"><p class="cl-41ead32a"><span class="cl-41e5f1de"></span></p></td><td class="cl-41eaf41c"><p class="cl-41ead32a"><span class="cl-41e5f1de"></span></p></td><td class="cl-41eaf422"><p class="cl-41ead320"><span class="cl-41e5f1de">14</span></p></td><td class="cl-41eaf423"><p class="cl-41ead320"><span class="cl-41e5f1de">GOOD</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41eaf424"><p class="cl-41ead320"><span class="cl-41e5f1de">RO-Kullu</span></p></td><td class="cl-41eaf425"><p class="cl-41ead320"><span class="cl-41e5f1de">Manali</span></p></td><td class="cl-41eaf426"><p class="cl-41ead320"><span class="cl-41e5f1de">Manali-I</span></p></td><td class="cl-41eaf42c"><p class="cl-41ead32a"><span class="cl-41e5f1de">2021-01-13 00:00:00</span></p></td><td class="cl-41eaf42d"><p class="cl-41ead32a"><span class="cl-41e5f1de">48.86</span></p></td><td class="cl-41eaf42e"><p class="cl-41ead32a"><span class="cl-41e5f1de"></span></p></td><td class="cl-41eaf436"><p class="cl-41ead32a"><span class="cl-41e5f1de">2.00</span></p></td><td class="cl-41eaf437"><p class="cl-41ead32a"><span class="cl-41e5f1de">11.24</span></p></td><td class="cl-41eaf438"><p class="cl-41ead32a"><span class="cl-41e5f1de">3.06</span></p></td><td class="cl-41eaf440"><p class="cl-41ead32a"><span class="cl-41e5f1de"></span></p></td><td class="cl-41eaf441"><p class="cl-41ead32a"><span class="cl-41e5f1de"></span></p></td><td class="cl-41eaf442"><p class="cl-41ead32a"><span class="cl-41e5f1de"></span></p></td><td class="cl-41eaf44a"><p class="cl-41ead32a"><span class="cl-41e5f1de"></span></p></td><td class="cl-41eaf44b"><p class="cl-41ead32a"><span class="cl-41e5f1de"></span></p></td><td class="cl-41eaf44c"><p class="cl-41ead32a"><span class="cl-41e5f1de"></span></p></td><td class="cl-41eaf454"><p class="cl-41ead32a"><span class="cl-41e5f1de"></span></p></td><td class="cl-41eaf455"><p class="cl-41ead320"><span class="cl-41e5f1de">49</span></p></td><td class="cl-41eaf456"><p class="cl-41ead320"><span class="cl-41e5f1de">GOOD</span></p></td></tr></tbody></table></div>
+</div>
+</div></div></div>
+<p>The dataset shared for the workshop (<a href="#tbl-aqi">Table&nbsp;1</a>) is a subset of air quality data from SPCB website. The shared dataset includes data for one randomly choosen station in Manali, HP. The dataset includes data on PM 10, Pm 2.5, AQI and multiple other parameters from the meterological station.</p>
+<div class="cell" data-hash="1_intro_cache/html/unnamed-chunk-3_1eaaf49ee381fb045f96c84db5b4a248">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df_aqi <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"aqidata_IPHACON2024.xlsx"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="global-deaths-from-earthquakes-1900-2023" class="level3 page-columns page-full" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="global-deaths-from-earthquakes-1900-2023"><span class="header-section-number">4.2</span> Global Deaths from Earthquakes (1900-2023)</h3>
+<div class="cell page-columns page-full" data-hash="1_intro_cache/html/tbl-eq_death_f90f068c507b572ee2c6a9be1b0e4787">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div id="tbl-eq_death" class="anchored">
+
+<div class="tabwid"><style>.cl-423db48c{}.cl-422f9438{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-42366cfe{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-42369508{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42369512{width:1.67in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42369513{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4236951c{width:1.67in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4236951d{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42369526{width:1.67in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-423db48c"><caption>Table&nbsp;2:  <p>Overview: Earthquake deaths</p> </caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-42369508"><p class="cl-42366cfe"><span class="cl-422f9438">Year</span></p></th><th class="cl-42369512"><p class="cl-42366cfe"><span class="cl-422f9438">deaths_earthquakes</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-42369513"><p class="cl-42366cfe"><span class="cl-422f9438">1,900</span></p></td><td class="cl-4236951c"><p class="cl-42366cfe"><span class="cl-422f9438">560</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-42369513"><p class="cl-42366cfe"><span class="cl-422f9438">1,920</span></p></td><td class="cl-4236951c"><p class="cl-42366cfe"><span class="cl-422f9438">731,992</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-42369513"><p class="cl-42366cfe"><span class="cl-422f9438">1,999</span></p></td><td class="cl-4236951c"><p class="cl-42366cfe"><span class="cl-422f9438">87,619</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4236951d"><p class="cl-42366cfe"><span class="cl-422f9438">2,023</span></p></td><td class="cl-42369526"><p class="cl-42366cfe"><span class="cl-422f9438">218,608</span></p></td></tr></tbody></table></div>
+</div>
+</div></div></div>
+<p>As shown in <a href="#tbl-eq_death">Table&nbsp;2</a> the dataset used in the workshop is created to show global number of deaths due to earthquakes. Poverty, disease, hunger, climate change, war, existential risks, and inequality: The world faces many great and terrifying problems. It is these large problems that the work at Our World in Data focuses on. Our World in Data’s mission is to publish the <em>“research and data to make progress against the world’s largest problems”</em>.</p>
+<div class="cell" data-hash="1_intro_cache/html/unnamed-chunk-5_2fae5a33fb3a8576cc26319e59ce5b79">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df_disaster <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"earthquakes_IPHACON2024.xlsx"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="monthly-road-traffic-accidents-in-india-2014-2018" class="level3 page-columns page-full" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="monthly-road-traffic-accidents-in-india-2014-2018"><span class="header-section-number">4.3</span> Monthly Road Traffic accidents in India (2014-2018)</h3>
+<div class="cell page-columns page-full" data-hash="1_intro_cache/html/tbl-rta_b27bc7bfc015b4418b1c60af32e1c733">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div id="tbl-rta" class="anchored">
+
+<div class="tabwid"><style>.cl-427651ca{}.cl-426a9e16{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-426eadf8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-426eae02{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-426ec8c4{width:1.05in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-426ec8c5{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-426ec8ce{width:1.05in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-426ec8cf{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-426ec8d8{width:1.05in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-426ec8d9{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-427651ca"><caption>Table&nbsp;3:  <p>Overview: RTAs in India</p> </caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-426ec8c4"><p class="cl-426eadf8"><span class="cl-426a9e16">timeline</span></p></th><th class="cl-426ec8c5"><p class="cl-426eae02"><span class="cl-426a9e16">Total Accident</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-426ec8ce"><p class="cl-426eadf8"><span class="cl-426a9e16">01/04/2014</span></p></td><td class="cl-426ec8cf"><p class="cl-426eae02"><span class="cl-426a9e16">39,867</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-426ec8ce"><p class="cl-426eadf8"><span class="cl-426a9e16">01/08/2018</span></p></td><td class="cl-426ec8cf"><p class="cl-426eae02"><span class="cl-426a9e16">35,845</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-426ec8ce"><p class="cl-426eadf8"><span class="cl-426a9e16">01/11/2018</span></p></td><td class="cl-426ec8cf"><p class="cl-426eae02"><span class="cl-426a9e16">38,417</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-426ec8d8"><p class="cl-426eadf8"><span class="cl-426a9e16">01/09/2018</span></p></td><td class="cl-426ec8d9"><p class="cl-426eae02"><span class="cl-426a9e16">35,387</span></p></td></tr></tbody></table></div>
+</div>
+</div></div></div>
+<p>As shown in <a href="#tbl-rta">Table&nbsp;3</a> the dataset used in the workshop is subset of data taken from https://data.gov.in/. It has the number of road accidents from 2014-2018 in India.</p>
+<div class="cell" data-hash="1_intro_cache/html/unnamed-chunk-7_e4f68bdf0acf62b0aec83338aceea951">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_rta <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"RTA_monthly_India_IPHACON2024.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="maternal-mortality-ratio-india-2000-2020" class="level3 page-columns page-full" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="maternal-mortality-ratio-india-2000-2020"><span class="header-section-number">4.4</span> Maternal Mortality Ratio: India (2000-2020)</h3>
+<div class="cell page-columns page-full" data-hash="1_intro_cache/html/tbl-mmr_f1bafd3c2104b1260550b00ff5149277">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div id="tbl-mmr" class="anchored">
+
+<div class="tabwid"><style>.cl-42a2bbb6{}.cl-429924d4{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-429ce650{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-429d00e0{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-429d00ea{width:0.65in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-429d00f4{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-429d00f5{width:0.65in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-429d00f6{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-429d00fe{width:0.65in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-42a2bbb6"><caption>Table&nbsp;4:  <p>Overview: Reporting</p> </caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-429d00e0"><p class="cl-429ce650"><span class="cl-429924d4">Year</span></p></th><th class="cl-429d00ea"><p class="cl-429ce650"><span class="cl-429924d4">MMR</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-429d00f4"><p class="cl-429ce650"><span class="cl-429924d4">2,000</span></p></td><td class="cl-429d00f5"><p class="cl-429ce650"><span class="cl-429924d4">384</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-429d00f4"><p class="cl-429ce650"><span class="cl-429924d4">2,004</span></p></td><td class="cl-429d00f5"><p class="cl-429ce650"><span class="cl-429924d4">301</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-429d00f6"><p class="cl-429ce650"><span class="cl-429924d4">2,020</span></p></td><td class="cl-429d00fe"><p class="cl-429ce650"><span class="cl-429924d4">103</span></p></td></tr></tbody></table></div>
+</div>
+</div></div></div>
+<p>As shown in <a href="#tbl-mmr">Table&nbsp;4</a> the dataset used in the workshop is Maternal mortality ratio is the number of women who die from pregnancy-related causes while pregnant or within 42 days of pregnancy termination per 100,000 live births. The data are estimated with a regression model using information on the proportion of maternal deaths among non-AIDS deaths in women ages 15-49, fertility, birth attendants, and GDP measured using purchasing power parities (PPPs). The source of the dataset is WHO, UNICEF, UNFPA, World Bank Group, and UNDESA/Population Division. Trends in Maternal Mortality 2000 to 2020. Geneva, World Health Organization, 2023</p>
+<div class="cell" data-hash="1_intro_cache/html/unnamed-chunk-9_77c2be7c116998306002d59f874400c7">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_mmr <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"mmr_IPHACON2024.xls"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="campylobacter-cases-in-germany-2001-2011" class="level3 page-columns page-full" data-number="4.5">
+<h3 data-number="4.5" class="anchored" data-anchor-id="campylobacter-cases-in-germany-2001-2011"><span class="header-section-number">4.5</span> Campylobacter cases in Germany (2001-2011)</h3>
+<div class="cell page-columns page-full" data-hash="1_intro_cache/html/tbl-campylo_854a3566356d4af11450885d7fca020d">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div id="tbl-campylo" class="anchored">
+
+<div class="tabwid"><style>.cl-42d1d7b6{}.cl-42c6b4da{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-42cb321c{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-42cb4d10{width:1.704in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42cb4d1a{width:0.608in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42cb4d1b{width:1.704in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42cb4d1c{width:0.608in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42cb4d24{width:1.704in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42cb4d25{width:0.608in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42cb4d26{width:1.704in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42cb4d2e{width:0.608in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-42d1d7b6"><caption>Table&nbsp;5:  <p>Overview: Campylobacter cases</p> </caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-42cb4d10"><p class="cl-42cb321c"><span class="cl-42c6b4da">date</span></p></th><th class="cl-42cb4d1a"><p class="cl-42cb321c"><span class="cl-42c6b4da">case</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-42cb4d1b"><p class="cl-42cb321c"><span class="cl-42c6b4da">2001-12-31 00:00:00</span></p></td><td class="cl-42cb4d1c"><p class="cl-42cb321c"><span class="cl-42c6b4da">514</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-42cb4d24"><p class="cl-42cb321c"><span class="cl-42c6b4da">2002-01-28 00:00:00</span></p></td><td class="cl-42cb4d25"><p class="cl-42cb321c"><span class="cl-42c6b4da">815</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-42cb4d26"><p class="cl-42cb321c"><span class="cl-42c6b4da">2002-05-20 00:00:00</span></p></td><td class="cl-42cb4d2e"><p class="cl-42cb321c"><span class="cl-42c6b4da">869</span></p></td></tr></tbody></table></div>
+</div>
+</div></div></div>
+<p>As shown in <a href="#tbl-campylo">Table&nbsp;5</a> the dataset used in the workshop is the counts of campylobacter cases reported in Germany between 2001 and 2011. The dataset is obtained from the <code>surveillance</code> package</p>
+<div class="cell" data-hash="1_intro_cache/html/unnamed-chunk-11_e407d2b47706bb6026f504fe85b5b3d3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_campylo <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"campylobacter_IPHACON2024.xlsx"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="m750-data" class="level3 page-columns page-full" data-number="4.6">
+<h3 data-number="4.6" class="anchored" data-anchor-id="m750-data"><span class="header-section-number">4.6</span> M750 data</h3>
+<div class="cell page-columns page-full" data-hash="1_intro_cache/html/tbl-m750_bbea4b6831eac34b9a180e40e36d516e">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div id="tbl-m750" class="anchored">
+
+<div class="tabwid"><style>.cl-4304d620{}.cl-42f99a8a{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-42fde1a8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-42fde1b2{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-42fdfd78{width:0.667in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42fdfd82{width:1.704in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42fdfd83{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42fdfd8c{width:0.667in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42fdfd8d{width:1.704in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42fdfd8e{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42fdfd96{width:0.667in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42fdfd97{width:1.704in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-42fdfda0{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-4304d620"><caption>Table&nbsp;6:  <p>Overview: M750</p> </caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-42fdfd78"><p class="cl-42fde1a8"><span class="cl-42f99a8a">id</span></p></th><th class="cl-42fdfd82"><p class="cl-42fde1b2"><span class="cl-42f99a8a">date</span></p></th><th class="cl-42fdfd83"><p class="cl-42fde1b2"><span class="cl-42f99a8a">value</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-42fdfd8c"><p class="cl-42fde1a8"><span class="cl-42f99a8a">M750</span></p></td><td class="cl-42fdfd8d"><p class="cl-42fde1b2"><span class="cl-42f99a8a">1990-01-01 00:00:00</span></p></td><td class="cl-42fdfd8e"><p class="cl-42fde1b2"><span class="cl-42f99a8a">6,370</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-42fdfd8c"><p class="cl-42fde1a8"><span class="cl-42f99a8a">M750</span></p></td><td class="cl-42fdfd8d"><p class="cl-42fde1b2"><span class="cl-42f99a8a">1994-02-01 00:00:00</span></p></td><td class="cl-42fdfd8e"><p class="cl-42fde1b2"><span class="cl-42f99a8a">7,240</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-42fdfd8c"><p class="cl-42fde1a8"><span class="cl-42f99a8a">M750</span></p></td><td class="cl-42fdfd8d"><p class="cl-42fde1b2"><span class="cl-42f99a8a">2006-08-01 00:00:00</span></p></td><td class="cl-42fdfd8e"><p class="cl-42fde1b2"><span class="cl-42f99a8a">8,580</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-42fdfd96"><p class="cl-42fde1a8"><span class="cl-42f99a8a">M750</span></p></td><td class="cl-42fdfd97"><p class="cl-42fde1b2"><span class="cl-42f99a8a">2015-06-01 00:00:00</span></p></td><td class="cl-42fdfda0"><p class="cl-42fde1b2"><span class="cl-42f99a8a">11,000</span></p></td></tr></tbody></table></div>
+</div>
+</div></div></div>
+<p>The <a href="#tbl-m750">Table&nbsp;6</a> represents data from the fourth M Competition. M4, started on 1 January 2018 and ended in 31 May 2018. The competition included 100,000 time series datasets. This dataset includes The 750th Monthly Time Series used in the competition.</p>
+<div class="cell" data-hash="1_intro_cache/html/unnamed-chunk-13_6bcdca8cac3dcf895fb9c3fdaf3080c1">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_750 <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"m750_IPHACON2024.xlsx"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="anti-diabetes-drug-sales" class="level3 page-columns page-full" data-number="4.7">
+<h3 data-number="4.7" class="anchored" data-anchor-id="anti-diabetes-drug-sales"><span class="header-section-number">4.7</span> Anti-Diabetes drug sales</h3>
+<div class="cell page-columns page-full" data-hash="1_intro_cache/html/tbl-diab_dc0004dcc8a0b68fd054c0d368003cb1">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div id="tbl-diab" class="anchored">
+
+<div class="tabwid"><style>.cl-43415c44{}.cl-43368a80{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-433a90bc{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-433ab07e{width:0.939in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-433ab088{width:1.05in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-433ab092{width:0.939in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-433ab093{width:1.05in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-433ab094{width:0.939in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-433ab09c{width:1.05in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-433ab09d{width:0.939in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-433ab0a6{width:1.05in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-43415c44"><caption>Table&nbsp;7:  <p>Overview: Anti-Diabetic Drug sales</p> </caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-433ab07e"><p class="cl-433a90bc"><span class="cl-43368a80">Month</span></p></th><th class="cl-433ab088"><p class="cl-433a90bc"><span class="cl-43368a80">TotalC</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-433ab092"><p class="cl-433a90bc"><span class="cl-43368a80">1991 Jul</span></p></td><td class="cl-433ab093"><p class="cl-433a90bc"><span class="cl-43368a80">3,526,591</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-433ab094"><p class="cl-433a90bc"><span class="cl-43368a80">1995 Aug</span></p></td><td class="cl-433ab09c"><p class="cl-433a90bc"><span class="cl-43368a80">5,855,277</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-433ab092"><p class="cl-433a90bc"><span class="cl-43368a80">2003 Dec</span></p></td><td class="cl-433ab093"><p class="cl-433a90bc"><span class="cl-43368a80">16,503,966</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-433ab09d"><p class="cl-433a90bc"><span class="cl-43368a80">2008 Feb</span></p></td><td class="cl-433ab0a6"><p class="cl-433a90bc"><span class="cl-43368a80">21,654,285</span></p></td></tr></tbody></table></div>
+</div>
+</div></div></div>
+<p>The <a href="#tbl-diab">Table&nbsp;7</a> represents data from the fourth M Competition. M4, started on 1 January 2018 and ended in 31 May 2018. The competition included 100,000 time series datasets. This dataset includes The 750th Monthly Time Series used in the competition.</p>
+<div class="cell" data-hash="1_intro_cache/html/unnamed-chunk-15_0501b273808599d7ac77156990d04ea7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_diab <span class="ot">&lt;-</span> PBS <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ATC2 <span class="sc">==</span> <span class="st">"A10"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Month, Concession, Type, Cost) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">TotalC =</span> <span class="fu">sum</span>(Cost))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hands-on Workshop on Time Series Analysis and Forecasting using R: IPHACON 2024 - Handling Time series datasets</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href=".//images/spatial_hex.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/spatial_hex.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Hands-on Workshop on Time Series Analysis and Forecasting using R: IPHACON 2024</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./1_intro.html" rel="" target="">
+ <span class="menu-text">Introduction to time series analysis</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./2_EDA.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Handling Time series datasets</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./2.1_EDA.html" rel="" target="">
+ <span class="menu-text">Exploratory Time Series Analysis</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./4_Model.html" rel="" target="">
+ <span class="menu-text">Workflow: Modeltime</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<p><img src=".\images/spatial_hex.png" class="img-fluid" style="width:65.0%"></p>
+</div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#first-things-first-ensure-that-you-have-a-time-series-dataset." id="toc-first-things-first-ensure-that-you-have-a-time-series-dataset." class="nav-link" data-scroll-target="#first-things-first-ensure-that-you-have-a-time-series-dataset."><span class="header-section-number">2</span> First things first: Ensure that you have a time series dataset.</a>
+  <ul>
+  <li><a href="#understanding-the-time-stamps." id="toc-understanding-the-time-stamps." class="nav-link" data-scroll-target="#understanding-the-time-stamps."><span class="header-section-number">2.1</span> Understanding the time stamps.</a>
+  <ul class="collapse">
+  <li><a href="#time-series-air-quality-data-of-manali-2010-2023" id="toc-time-series-air-quality-data-of-manali-2010-2023" class="nav-link" data-scroll-target="#time-series-air-quality-data-of-manali-2010-2023"><span class="header-section-number">2.1.1</span> Time Series Air Quality Data of Manali (2010-2023)</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#creating-time-series-objects." id="toc-creating-time-series-objects." class="nav-link" data-scroll-target="#creating-time-series-objects."><span class="header-section-number">3</span> Creating time series objects.</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Handling Time series datasets</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+<p>Welcome to the world of Time Series Analysis and forecasting!!</p>
+<section id="introduction" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
+<p>Once the data has been collected, based on data science principles, it is recommended to undertake an exploratory data analysis for better understanding of the dataset and its characteristics. In time series analysis and forecasting projects, the same is applied as visualizations and extraction of time series features. We shall be dwelling on these concepts using the datasets loaded for the workshop till now.</p>
+</section>
+<section id="first-things-first-ensure-that-you-have-a-time-series-dataset." class="level2 page-columns page-full" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="first-things-first-ensure-that-you-have-a-time-series-dataset."><span class="header-section-number">2</span> First things first: Ensure that you have a time series dataset.</h2>
+<p>In many occasions, though the data collection has been carried out for a time series analysis, the capture of the timeline may not be adequate to conduct a time series analysis. The dataset may be imported into the analysis environment as a spreadsheet or a dataframe. Therefore, at the outset, we should look at the variable containing timeline and ensure that the dataset is a time series data.</p>
+<section id="understanding-the-time-stamps." class="level3 page-columns page-full" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="understanding-the-time-stamps."><span class="header-section-number">2.1</span> Understanding the time stamps.</h3>
+<p>In any time series data project, it is critical to understand whether the data has been collected as a regular or irregular time series data. Further, depending upon the research question and need of the study, a common time stamp is required for all the datasets for creating forecasting models in subsequent phases of analysis and interpretation. Let’s look at the data sets and understand it further.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><img src="images/eda.png" class="img-fluid"></p>
+</div></div><section id="time-series-air-quality-data-of-manali-2010-2023" class="level4 page-columns page-full" data-number="2.1.1">
+<h4 data-number="2.1.1" class="anchored" data-anchor-id="time-series-air-quality-data-of-manali-2010-2023"><span class="header-section-number">2.1.1</span> Time Series Air Quality Data of Manali (2010-2023)</h4>
+<p>We shall be using the function <code>glimpse()</code> which makes it possible to see every column in a data frame and understand the <code>class</code> of the variables.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-hash="2_EDA_cache/html/unnamed-chunk-2_360988c3941503e63df37ceea04b9031">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df_aqi <span class="sc">|&gt;</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-hash="2_EDA_cache/html/unnamed-chunk-3_93e2bada9b9e3577700ce3b5744dea7f">
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 458
+Columns: 18
+$ `Regional Office Lab` &lt;chr&gt; "RO-Kullu", "RO-Kullu", "RO-Kullu", "RO-Kullu", …
+$ City                  &lt;chr&gt; "Manali", "Manali", "Manali", "Manali", "Manali"…
+$ `Station Name`        &lt;chr&gt; "Manali-I", "Manali-I", "Manali-I", "Manali-I", …
+$ `Sample Date`         &lt;dttm&gt; 2020-04-08, 2020-04-10, 2020-04-20, 2020-04-22,…
+$ `PM10 (µg/m³)`        &lt;dbl&gt; 12.31, 14.87, 9.45, 8.89, 9.09, 11.93, 11.04, 16…
+$ `PM2.5 (µg/m³)`       &lt;dbl&gt; 8.31, 6.23, 4.25, 6.24, 5.00, 8.33, 8.39, 8.39, …
+$ `SO₂ (µg/m³)`         &lt;dbl&gt; 1.08, 1.20, 1.09, 1.21, 1.13, 1.47, 1.62, 1.50, …
+$ `NOₓ (µg/m³)`         &lt;dbl&gt; 3.62, 4.19, 3.78, 4.00, 3.91, 4.31, 4.94, 4.57, …
+$ `NH₃ (µg/m³)`         &lt;dbl&gt; 2.16, 1.63, 1.64, 1.38, 1.62, 1.19, 1.84, 1.70, …
+$ `O₃ (µg/m³)`          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ `Pb (µg/m³)`          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ `CO (mg/m³)`          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ `C₆H₆ (µg/m³)`        &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ `BaP (ng/m³)`         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ `As (ng/m³)`          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ `Ni (ng/m³)`          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ AQI                   &lt;chr&gt; "14", "15", "9", "10", "9", "14", "14", "16", "2…
+$ `AQI Condition`       &lt;chr&gt; "GOOD", "GOOD", "GOOD", "GOOD", "GOOD", "GOOD", …</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>Looking at the class, it is understood that the <code>Sample Date</code> in the data is stored as a <code>dttm</code> or date time variable. Also, <code>PM10 (µg/m³)</code> and other air quality variables are stored as <code>character</code> variables and not as <code>numeric</code>. Therefore, we shall use <code>ymd()</code> function from the package <code>lubridate</code> and <code>tidyverse</code> functions to create a time variable and convert <code>character</code> to <code>numeric</code> variable.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>lubridate</code> package from tidyverse is a powerful tool for handling dates and time in a dataset.</p>
+</div>
+</div>
+</div></div><div class="cell" data-hash="2_EDA_cache/html/unnamed-chunk-4_80101ea4be90e06942af3446338faf00">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_aqi <span class="ot">&lt;-</span> df_aqi <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">Sample Date</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ymd</span>(<span class="st">`</span><span class="at">Sample Date</span><span class="st">`</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">PM10 (µg/m³)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="st">`</span><span class="at">PM10 (µg/m³)</span><span class="st">`</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let us now determine the timestamp for the dataset</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-hash="2_EDA_cache/html/unnamed-chunk-5_f4fb221477b64052ccb69e86f08ee775">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_aqi <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Sample Date</span><span class="st">`</span>, <span class="st">`</span><span class="at">PM10 (µg/m³)</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-hash="2_EDA_cache/html/unnamed-chunk-6_fb525b855ad138b3ba9bce6183dc91d7">
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sample Date PM10 (µg/m³)
+1  2020-04-08        12.31
+2  2020-04-10        14.87
+3  2020-04-20         9.45
+4  2020-04-22         8.89
+5  2020-04-24         9.09
+6  2020-05-04        11.93</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="cell" data-hash="2_EDA_cache/html/unnamed-chunk-7_df3e3ff769400e1a48de6502d776a63d">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_aqi <span class="ot">&lt;-</span> df_aqi <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Sample Date</span><span class="st">`</span>, <span class="st">`</span><span class="at">PM10 (µg/m³)</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>It is understood that the sampling dates are not on daily time stamps and are irregular in nature. therefore, to further proceed, we shall be converting them to weekly time stamps.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-hash="2_EDA_cache/html/unnamed-chunk-8_410ffea7e9a1da2553cbfd3aa68e35af">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_aqi <span class="ot">&lt;-</span> df_aqi <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">Sample Date</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">yearmonth</span>(<span class="st">`</span><span class="at">Sample Date</span><span class="st">`</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="st">`</span><span class="at">Sample Date</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="st">`</span><span class="at">PM10 (µg/m³)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">PM10 (µg/m³)</span><span class="st">`</span>, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">na.rm =</span> T))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-hash="2_EDA_cache/html/unnamed-chunk-9_3556ab5975564b19e95f32b0badde407">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  `Sample Date` `PM10 (µg/m³)`
+          &lt;mth&gt;          &lt;dbl&gt;
+1      2020 Apr           10.9
+2      2020 May           19.8
+3      2020 Jun           33.1
+4      2020 Jul           33.5
+5      2020 Aug           26.2
+6      2020 Sep           43.0</code></pre>
+</div>
+</div>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Choosing a time stamp is of utmost importance in time series analysis when dealing with irregular time series data. It is advisable to use a parsimonious approach based on both visualizations and statistical measures for noise and entropy for decision making.</p>
+</div>
+</div>
+</div></div></section>
+</section>
+</section>
+<section id="creating-time-series-objects." class="level2 page-columns page-full" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="creating-time-series-objects."><span class="header-section-number">3</span> Creating time series objects.</h2>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The index variable.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>tsibble</code> objects extend <code>tidy</code> data frames (<code>tibble</code> objects) by introducing temporal structure. We have set the time series index to be the Year column, which associates the measurements with the time of recording.</p>
+</div>
+</div>
+</div></div><p>Now, since we are aware of the timestamps, the next step is to create <code>tsibble</code> objects for extracting the time series characteristics from a time series dataset. A time series can be thought of as a list of numbers (the measurements), along with some information about what times those numbers were recorded (the index). This information can be stored as a <code>tsibble</code> object in R. We shall be using <code>tsibble</code> function from the package <code>tsibble</code> for the same.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-hash="2_EDA_cache/html/unnamed-chunk-10_5544779ec7bfa04468de921f5a071a27">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_disaster <span class="ot">&lt;-</span> df_disaster <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tsibble</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">index =</span> Year</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-hash="2_EDA_cache/html/unnamed-chunk-11_9ef641a2a080662730efd3192a855abb">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tsibble: 6 x 2 [1Y]
+   Year deaths_earthquakes
+  &lt;dbl&gt;              &lt;dbl&gt;
+1  1900                560
+2  1901                 72
+3  1902              31944
+4  1903              26520
+5  1904                612
+6  1905              83473</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>In scenarios wherein the time stamps are quarterly, monthly, or weekly, respective index functions are used.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The key variable
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A <code>tsibble</code> also allows multiple time series to be stored in a single object. The details of the same are stored in key variable. For example, time series data of men and women.</p>
+</div>
+</div>
+</div></div><div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-hash="2_EDA_cache/html/unnamed-chunk-12_fb1a15da14589625a4b1ec742dceb8c6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_rta <span class="ot">&lt;-</span> df_rta <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timeline =</span> <span class="fu">dmy</span>(timeline)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month =</span> <span class="fu">yearmonth</span>(timeline)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Month) <span class="sc">|&gt;</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">accidents =</span> <span class="fu">sum</span>(<span class="st">`</span><span class="at">Total Accident</span><span class="st">`</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tsibble</span>(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">index =</span>  Month</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-hash="2_EDA_cache/html/unnamed-chunk-13_9d5028c20b390efad12b7a17e51cfd6e">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tsibble: 6 x 2 [1M]
+     Month accidents
+     &lt;mth&gt;     &lt;int&gt;
+1 2014 Jan     41954
+2 2014 Feb     39899
+3 2014 Mar     42524
+4 2014 Apr     39867
+5 2014 May     45404
+6 2014 Jun     42448</code></pre>
+</div>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
