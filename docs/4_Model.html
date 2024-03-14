@@ -135,7 +135,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html" rel="" target="">
+    <a class="nav-link" href="./index.pdf" rel="" target="">
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -185,12 +185,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#model-6-mars-workflow" id="toc-model-6-mars-workflow" class="nav-link" data-scroll-target="#model-6-mars-workflow"><span class="header-section-number">1.2.6</span> Model 6: MARS (Workflow)</a></li>
   </ul></li>
   <li><a href="#step-3---add-fitted-models-to-a-model-table." id="toc-step-3---add-fitted-models-to-a-model-table." class="nav-link" data-scroll-target="#step-3---add-fitted-models-to-a-model-table."><span class="header-section-number">1.3</span> Step 3 - Add fitted models to a Model Table.</a></li>
-  <li><a href="#step-5---testing-set-forecast-accuracy-evaluation" id="toc-step-5---testing-set-forecast-accuracy-evaluation" class="nav-link" data-scroll-target="#step-5---testing-set-forecast-accuracy-evaluation"><span class="header-section-number">1.4</span> Step 5 - Testing Set Forecast &amp; Accuracy Evaluation</a>
+  <li><a href="#step-4---calibrate-the-model-to-a-testing-set." id="toc-step-4---calibrate-the-model-to-a-testing-set." class="nav-link" data-scroll-target="#step-4---calibrate-the-model-to-a-testing-set."><span class="header-section-number">1.4</span> Step 4 - Calibrate the model to a testing set.</a></li>
+  <li><a href="#step-5---testing-set-forecast-accuracy-evaluation" id="toc-step-5---testing-set-forecast-accuracy-evaluation" class="nav-link" data-scroll-target="#step-5---testing-set-forecast-accuracy-evaluation"><span class="header-section-number">1.5</span> Step 5 - Testing Set Forecast &amp; Accuracy Evaluation</a>
   <ul class="collapse">
-  <li><a href="#a---visualizing-the-forecast-test" id="toc-a---visualizing-the-forecast-test" class="nav-link" data-scroll-target="#a---visualizing-the-forecast-test"><span class="header-section-number">1.4.1</span> 5A - Visualizing the Forecast Test</a></li>
-  <li><a href="#b---accuracy-metrics" id="toc-b---accuracy-metrics" class="nav-link" data-scroll-target="#b---accuracy-metrics"><span class="header-section-number">1.4.2</span> 5B - Accuracy Metrics</a></li>
+  <li><a href="#a---visualizing-the-forecast-test" id="toc-a---visualizing-the-forecast-test" class="nav-link" data-scroll-target="#a---visualizing-the-forecast-test"><span class="header-section-number">1.5.1</span> 5A - Visualizing the Forecast Test</a></li>
+  <li><a href="#b---accuracy-metrics" id="toc-b---accuracy-metrics" class="nav-link" data-scroll-target="#b---accuracy-metrics"><span class="header-section-number">1.5.2</span> 5B - Accuracy Metrics</a></li>
   </ul></li>
-  <li><a href="#step-6---refit-to-full-dataset-forecast-forward" id="toc-step-6---refit-to-full-dataset-forecast-forward" class="nav-link" data-scroll-target="#step-6---refit-to-full-dataset-forecast-forward"><span class="header-section-number">1.5</span> Step 6 - Refit to Full Dataset &amp; Forecast Forward</a></li>
+  <li><a href="#step-6---refit-to-full-dataset-forecast-forward" id="toc-step-6---refit-to-full-dataset-forecast-forward" class="nav-link" data-scroll-target="#step-6---refit-to-full-dataset-forecast-forward"><span class="header-section-number">1.6</span> Step 6 - Refit to Full Dataset &amp; Forecast Forward</a></li>
   </ul></li>
   <li><a href="#refitting---what-happened" id="toc-refitting---what-happened" class="nav-link" data-scroll-target="#refitting---what-happened"><span class="header-section-number">2</span> Refitting - What happened?</a></li>
   </ul>
@@ -275,9 +276,8 @@ Note
 </div>
 </div>
 <p>Let’s split the data into training and test sets using <code>initial_time_split()</code></p>
-<div class="cell" data-hash="4_Model_cache/html/unnamed-chunk-4_07577920fb2ecfbd8070809aa0ceb769">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split Data 80/20</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>splits <span class="ot">&lt;-</span> <span class="fu">initial_time_split</span>(m750, <span class="at">prop =</span> <span class="fl">0.9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="4_Model_cache/html/unnamed-chunk-4_17c2bbd642d64620d7c338886d56a7d7">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>splits <span class="ot">&lt;-</span> <span class="fu">initial_time_split</span>(m750, <span class="at">prop =</span> <span class="fl">0.9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="step-2---create-fit-multiple-models" class="level3 page-columns page-full" data-number="1.2">
@@ -373,7 +373,7 @@ Note
 <li><em>Trend:</em> Modeled using <code>as.numeric(date)</code></li>
 <li><em>Seasonal:</em> Modeled using <code>month(date)</code></li>
 </ul>
-<div class="cell" data-hash="4_Model_cache/html/unnamed-chunk-9_2871ee081e1aa1c60a7510ef4895180a">
+<div class="cell" data-hash="4_Model_cache/html/unnamed-chunk-9_fb326fabba75c1a043a25d12b6f8669a">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 5: lm ----</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>model_fit_lm <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_engine</span>(<span class="st">"lm"</span>) <span class="sc">|&gt;</span></span>
@@ -423,7 +423,8 @@ Attaching package: 'plotrix'</code></pre>
 <section id="step-3---add-fitted-models-to-a-model-table." class="level3" data-number="1.3">
 <h3 data-number="1.3" class="anchored" data-anchor-id="step-3---add-fitted-models-to-a-model-table."><span class="header-section-number">1.3</span> Step 3 - Add fitted models to a Model Table.</h3>
 <p>The next step is to add each of the models to a Modeltime Table using <code>modeltime_table()</code>. This step does some basic checking to make sure each of the models are fitted and that organizes into a scalable structure called a <strong><em>“Modeltime Table”</em></strong> that is used as part of our <em>forecasting workflow.</em></p>
-<p>:::: {.columns} ::: {.column width=“50%”}</p>
+<div class="columns">
+<div class="column" style="width:50%;">
 <div class="cell" data-hash="4_Model_cache/html/unnamed-chunk-11_23c7d12aefdcad5bb597bd69a99521af">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>models_tbl <span class="ot">&lt;-</span> <span class="fu">modeltime_table</span>(</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    model_fit_arima_no_boost,</span>
@@ -434,7 +435,7 @@ Attaching package: 'plotrix'</code></pre>
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    wflw_fit_mars</span>
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>::: ::: {.column width=“50%”}</p>
+</div><div class="column" style="width:50%;">
 <div class="cell" data-hash="4_Model_cache/html/unnamed-chunk-12_3efa2df3a100a16cb22ec622d13fcc9b">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>models_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -450,7 +451,11 @@ Attaching package: 'plotrix'</code></pre>
 6         6 &lt;workflow&gt; EARTH                                    </code></pre>
 </div>
 </div>
-<p>::: ### Step 4 - Calibrate the model to a testing set.</p>
+</div>
+</div>
+</section>
+<section id="step-4---calibrate-the-model-to-a-testing-set." class="level3" data-number="1.4">
+<h3 data-number="1.4" class="anchored" data-anchor-id="step-4---calibrate-the-model-to-a-testing-set."><span class="header-section-number">1.4</span> Step 4 - Calibrate the model to a testing set.</h3>
 <p>Calibrating adds a new column, <code>.calibration_data</code>, with the test predictions and residuals inside.</p>
 <div class="cell" data-hash="4_Model_cache/html/unnamed-chunk-13_c7c22f4a879a3e48e7d1b4b2350b3ddc">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>calibration_tbl <span class="ot">&lt;-</span> models_tbl <span class="sc">|&gt;</span></span>
@@ -471,15 +476,15 @@ Attaching package: 'plotrix'</code></pre>
 </div>
 </div>
 </section>
-<section id="step-5---testing-set-forecast-accuracy-evaluation" class="level3" data-number="1.4">
-<h3 data-number="1.4" class="anchored" data-anchor-id="step-5---testing-set-forecast-accuracy-evaluation"><span class="header-section-number">1.4</span> Step 5 - Testing Set Forecast &amp; Accuracy Evaluation</h3>
+<section id="step-5---testing-set-forecast-accuracy-evaluation" class="level3" data-number="1.5">
+<h3 data-number="1.5" class="anchored" data-anchor-id="step-5---testing-set-forecast-accuracy-evaluation"><span class="header-section-number">1.5</span> Step 5 - Testing Set Forecast &amp; Accuracy Evaluation</h3>
 <p>There are 2 critical parts to an evaluation.</p>
 <ul>
 <li>Visualizing the Forecast vs Test Data Set</li>
 <li>Evaluating the Test (Out of Sample) Accuracy</li>
 </ul>
-<section id="a---visualizing-the-forecast-test" class="level4" data-number="1.4.1">
-<h4 data-number="1.4.1" class="anchored" data-anchor-id="a---visualizing-the-forecast-test"><span class="header-section-number">1.4.1</span> 5A - Visualizing the Forecast Test</h4>
+<section id="a---visualizing-the-forecast-test" class="level4" data-number="1.5.1">
+<h4 data-number="1.5.1" class="anchored" data-anchor-id="a---visualizing-the-forecast-test"><span class="header-section-number">1.5.1</span> 5A - Visualizing the Forecast Test</h4>
 <div class="cell" data-hash="4_Model_cache/html/unnamed-chunk-14_4d0f2baf1b825e6deb6d7053fa4e8fad">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>calibration_tbl <span class="sc">|&gt;</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">modeltime_forecast</span>(</span>
@@ -501,8 +506,8 @@ Attaching package: 'plotrix'</code></pre>
 <li><strong>Model 6: EARTH</strong> is overfitting the local trend. This is because we did not tune the number of change points, so the algorithm is auto-calculating the change points.</li>
 </ul>
 </section>
-<section id="b---accuracy-metrics" class="level4" data-number="1.4.2">
-<h4 data-number="1.4.2" class="anchored" data-anchor-id="b---accuracy-metrics"><span class="header-section-number">1.4.2</span> 5B - Accuracy Metrics</h4>
+<section id="b---accuracy-metrics" class="level4" data-number="1.5.2">
+<h4 data-number="1.5.2" class="anchored" data-anchor-id="b---accuracy-metrics"><span class="header-section-number">1.5.2</span> 5B - Accuracy Metrics</h4>
 <p>We can use <code>modeltime_accuracy()</code> to collect common accuracy metrics. The default reports the following metrics using <code>yardstick</code> functions:</p>
 <ul>
 <li><strong>MAE</strong> - Mean absolute error, <code>mae()</code></li>
@@ -531,8 +536,8 @@ Attaching package: 'plotrix'</code></pre>
 </ul>
 </section>
 </section>
-<section id="step-6---refit-to-full-dataset-forecast-forward" class="level3" data-number="1.5">
-<h3 data-number="1.5" class="anchored" data-anchor-id="step-6---refit-to-full-dataset-forecast-forward"><span class="header-section-number">1.5</span> Step 6 - Refit to Full Dataset &amp; Forecast Forward</h3>
+<section id="step-6---refit-to-full-dataset-forecast-forward" class="level3" data-number="1.6">
+<h3 data-number="1.6" class="anchored" data-anchor-id="step-6---refit-to-full-dataset-forecast-forward"><span class="header-section-number">1.6</span> Step 6 - Refit to Full Dataset &amp; Forecast Forward</h3>
 <p>The final step is to refit the models to the full dataset using <code>modeltime_refit()</code> and forecast them forward.</p>
 <div class="cell" data-paged.print="false" data-hash="4_Model_cache/html/unnamed-chunk-16_2607bd161070f6b8dba082ede56be92f">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>refit_tbl <span class="ot">&lt;-</span> calibration_tbl <span class="sc">|&gt;</span></span>

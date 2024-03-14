@@ -134,8 +134,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Handling Time series datasets</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./ex_1.html" rel="" target="">
+ <span class="menu-text">Mid-workshop Hands-On Exercise</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link active" href="./2.1_EDA.html" rel="" target="" aria-current="page">
  <span class="menu-text">Exploratory Time Series Analysis</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./3_AR_MA.html" rel="" target="">
+ <span class="menu-text">ARIMA models</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./4_Model.html" rel="" target="">
@@ -159,24 +167,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#concept-of-stationarity-and-transformations." id="toc-concept-of-stationarity-and-transformations." class="nav-link active" data-scroll-target="#concept-of-stationarity-and-transformations."><span class="header-section-number">1</span> Concept of stationarity and transformations.</a></li>
-  <li><a href="#time-series-components." id="toc-time-series-components." class="nav-link" data-scroll-target="#time-series-components."><span class="header-section-number">2</span> Time series components.</a></li>
-  <li><a href="#visualizations." id="toc-visualizations." class="nav-link" data-scroll-target="#visualizations."><span class="header-section-number">3</span> Visualizations.</a>
+  <li><a href="#introduction." id="toc-introduction." class="nav-link active" data-scroll-target="#introduction."><span class="header-section-number">1</span> Introduction.</a></li>
+  <li><a href="#concept-of-stationarity-and-transformations." id="toc-concept-of-stationarity-and-transformations." class="nav-link" data-scroll-target="#concept-of-stationarity-and-transformations."><span class="header-section-number">2</span> Concept of stationarity and transformations.</a></li>
+  <li><a href="#time-series-components." id="toc-time-series-components." class="nav-link" data-scroll-target="#time-series-components."><span class="header-section-number">3</span> Time series components.</a></li>
+  <li><a href="#visualizations." id="toc-visualizations." class="nav-link" data-scroll-target="#visualizations."><span class="header-section-number">4</span> Visualizations.</a>
   <ul>
-  <li><a href="#time-plots" id="toc-time-plots" class="nav-link" data-scroll-target="#time-plots"><span class="header-section-number">3.1</span> Time plots</a></li>
-  <li><a href="#seasonal-plots." id="toc-seasonal-plots." class="nav-link" data-scroll-target="#seasonal-plots."><span class="header-section-number">3.2</span> Seasonal plots.</a></li>
-  <li><a href="#seasonal-subseries-plot." id="toc-seasonal-subseries-plot." class="nav-link" data-scroll-target="#seasonal-subseries-plot."><span class="header-section-number">3.3</span> Seasonal subseries plot.</a></li>
+  <li><a href="#time-plots" id="toc-time-plots" class="nav-link" data-scroll-target="#time-plots"><span class="header-section-number">4.1</span> Time plots</a></li>
+  <li><a href="#seasonal-plots." id="toc-seasonal-plots." class="nav-link" data-scroll-target="#seasonal-plots."><span class="header-section-number">4.2</span> Seasonal plots.</a></li>
+  <li><a href="#seasonal-subseries-plot." id="toc-seasonal-subseries-plot." class="nav-link" data-scroll-target="#seasonal-subseries-plot."><span class="header-section-number">4.3</span> Seasonal subseries plot.</a></li>
   </ul></li>
-  <li><a href="#time-series-features." id="toc-time-series-features." class="nav-link" data-scroll-target="#time-series-features."><span class="header-section-number">4</span> Time series features.</a>
+  <li><a href="#time-series-features." id="toc-time-series-features." class="nav-link" data-scroll-target="#time-series-features."><span class="header-section-number">5</span> Time series features.</a>
   <ul>
-  <li><a href="#autocorrelation-function-acf" id="toc-autocorrelation-function-acf" class="nav-link" data-scroll-target="#autocorrelation-function-acf"><span class="header-section-number">4.1</span> Autocorrelation function (ACF)</a></li>
-  <li><a href="#additional-acf-features" id="toc-additional-acf-features" class="nav-link" data-scroll-target="#additional-acf-features"><span class="header-section-number">4.2</span> Additional ACF features</a></li>
+  <li><a href="#autocorrelation-function-acf" id="toc-autocorrelation-function-acf" class="nav-link" data-scroll-target="#autocorrelation-function-acf"><span class="header-section-number">5.1</span> Autocorrelation function (ACF)</a></li>
+  <li><a href="#additional-acf-features" id="toc-additional-acf-features" class="nav-link" data-scroll-target="#additional-acf-features"><span class="header-section-number">5.2</span> Additional ACF features</a></li>
   </ul></li>
-  <li><a href="#time-series-decomposition" id="toc-time-series-decomposition" class="nav-link" data-scroll-target="#time-series-decomposition"><span class="header-section-number">5</span> Time series decomposition</a>
+  <li><a href="#time-series-decomposition" id="toc-time-series-decomposition" class="nav-link" data-scroll-target="#time-series-decomposition"><span class="header-section-number">6</span> Time series decomposition</a>
   <ul>
-  <li><a href="#additional-stl-features" id="toc-additional-stl-features" class="nav-link" data-scroll-target="#additional-stl-features"><span class="header-section-number">5.1</span> Additional STL features</a></li>
+  <li><a href="#additional-stl-features" id="toc-additional-stl-features" class="nav-link" data-scroll-target="#additional-stl-features"><span class="header-section-number">6.1</span> Additional STL features</a></li>
   </ul></li>
-  <li><a href="#moving-averages." id="toc-moving-averages." class="nav-link" data-scroll-target="#moving-averages."><span class="header-section-number">6</span> Moving averages.</a></li>
+  <li><a href="#moving-averages." id="toc-moving-averages." class="nav-link" data-scroll-target="#moving-averages."><span class="header-section-number">7</span> Moving averages.</a></li>
   </ul>
 </nav>
     </div>
@@ -200,12 +209,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 <p>Welcome to the world of Time Series Analysis and forecasting!!</p>
-<section id="concept-of-stationarity-and-transformations." class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="concept-of-stationarity-and-transformations."><span class="header-section-number">1</span> Concept of stationarity and transformations.</h2>
+<section id="introduction." class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction."><span class="header-section-number">1</span> Introduction.</h2>
+<p>In this section, we shall be discussing about exploratory data analysis concepts specific to time series analysis. It is important to note that traditional statistical approach such as calculating measures of central tendencies and measures of dispersion remains an integral part of any analysis, however, we shall be looking at them during workshop exercises and not here.</p>
+</section>
+<section id="concept-of-stationarity-and-transformations." class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="concept-of-stationarity-and-transformations."><span class="header-section-number">2</span> Concept of stationarity and transformations.</h2>
 <p>It is important to understand that ARIMA models are based on assumption that the time series data is stationary in nature. A time series is said to be stationary when the mean value of each time component is similar (i.e no trend or seasonality). In other words, A stationary time series is one whose statistical properties do not depend on the time at which the series is observed. However, often that is not the case. If the data shows variation that increases or decreases with the level of the series, then a transformation can be useful. For example, a logarithmic transformation is often useful to make a series stationary. Another useful family of transformations, that includes both logarithms and power transformations, is the family of Box-Cox transformations. Also, differencing of the order one or two is a commonly used approach for making time series stationary. We shall be discussing this topic further as we progress in the workshop for a better understanding.</p>
 </section>
-<section id="time-series-components." class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="time-series-components."><span class="header-section-number">2</span> Time series components.</h2>
+<section id="time-series-components." class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="time-series-components."><span class="header-section-number">3</span> Time series components.</h2>
 <p>A time series data is often described in terms of trend, seasonality and cyclicity.</p>
 <ul>
 <li><p><strong>Trend</strong>. A trend is said to be present when there is a long-term increase or decrease in the data. This change does not always have to be linear.</p></li>
@@ -213,10 +226,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><strong>Cyclicity</strong>. A cycle occurs when the data exhibit rises and falls that are not of a fixed frequency.</p></li>
 </ul>
 </section>
-<section id="visualizations." class="level2 page-columns page-full" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="visualizations."><span class="header-section-number">3</span> Visualizations.</h2>
-<section id="time-plots" class="level3 page-columns page-full" data-number="3.1">
-<h3 data-number="3.1" class="anchored" data-anchor-id="time-plots"><span class="header-section-number">3.1</span> Time plots</h3>
+<section id="visualizations." class="level2 page-columns page-full" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="visualizations."><span class="header-section-number">4</span> Visualizations.</h2>
+<section id="time-plots" class="level3 page-columns page-full" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="time-plots"><span class="header-section-number">4.1</span> Time plots</h3>
 <p>What kind of trend, seasonality and cyclicity do you observe in the following visualizations?</p>
 
 <div class="no-row-height column-margin column-container"><div class="cell" data-hash="2.1_EDA_cache/html/unnamed-chunk-2_a603fcf9d3628faf7ec34aa60fa8bc45">
@@ -340,8 +353,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="seasonal-plots." class="level3" data-number="3.2">
-<h3 data-number="3.2" class="anchored" data-anchor-id="seasonal-plots."><span class="header-section-number">3.2</span> Seasonal plots.</h3>
+<section id="seasonal-plots." class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="seasonal-plots."><span class="header-section-number">4.2</span> Seasonal plots.</h3>
 <p>A seasonal plot is similar to a time plot except that the data are plotted against the individual “seasons” in which the data were observed.A seasonal plot allows the underlying seasonal pattern to be seen more clearly, and is especially useful in identifying years in which the pattern changes.</p>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -360,8 +373,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="seasonal-subseries-plot." class="level3" data-number="3.3">
-<h3 data-number="3.3" class="anchored" data-anchor-id="seasonal-subseries-plot."><span class="header-section-number">3.3</span> Seasonal subseries plot.</h3>
+<section id="seasonal-subseries-plot." class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="seasonal-subseries-plot."><span class="header-section-number">4.3</span> Seasonal subseries plot.</h3>
 <p>Seasonal subseries plot is an alternative plot that emphasises the seasonal patterns is where the data for each season are collected together in separate mini time plots. The blue horizontal lines indicate the means for each month. This form of plot enables the underlying seasonal pattern to be seen clearly, and also shows the changes in seasonality over time. It is especially useful in identifying changes within particular seasons.</p>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -383,10 +396,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="time-series-features." class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="time-series-features."><span class="header-section-number">4</span> Time series features.</h2>
-<section id="autocorrelation-function-acf" class="level3" data-number="4.1">
-<h3 data-number="4.1" class="anchored" data-anchor-id="autocorrelation-function-acf"><span class="header-section-number">4.1</span> Autocorrelation function (ACF)</h3>
+<section id="time-series-features." class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="time-series-features."><span class="header-section-number">5</span> Time series features.</h2>
+<section id="autocorrelation-function-acf" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="autocorrelation-function-acf"><span class="header-section-number">5.1</span> Autocorrelation function (ACF)</h3>
 <p>Just as correlation measures the extent of a linear relationship between two variables, autocorrelation measures the linear relationship between lagged values of a time series. In a time series, the autocorrelation coefficients between varied lags make up the autocorrelation function or ACF.</p>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -492,8 +505,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="additional-acf-features" class="level3" data-number="4.2">
-<h3 data-number="4.2" class="anchored" data-anchor-id="additional-acf-features"><span class="header-section-number">4.2</span> Additional ACF features</h3>
+<section id="additional-acf-features" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="additional-acf-features"><span class="header-section-number">5.2</span> Additional ACF features</h3>
 <div class="columns">
 <div class="column" style="width:50%;">
 <p>The <code>feat_acf()</code> function computes a selection of the autocorrelations as under:</p>
@@ -531,8 +544,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="time-series-decomposition" class="level2 page-columns page-full" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="time-series-decomposition"><span class="header-section-number">5</span> Time series decomposition</h2>
+<section id="time-series-decomposition" class="level2 page-columns page-full" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="time-series-decomposition"><span class="header-section-number">6</span> Time series decomposition</h2>
 
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="callout callout-style-default callout-important callout-titled">
@@ -586,8 +599,8 @@ Decomposition methods
 </div>
 </div>
 </div>
-<section id="additional-stl-features" class="level3" data-number="5.1">
-<h3 data-number="5.1" class="anchored" data-anchor-id="additional-stl-features"><span class="header-section-number">5.1</span> Additional STL features</h3>
+<section id="additional-stl-features" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="additional-stl-features"><span class="header-section-number">6.1</span> Additional STL features</h3>
 <div class="columns">
 <div class="column" style="width:50%;">
 <p>A time series decomposition can be used to measure the strength of trend and seasonality in a time series. The <code>feat_stl()</code> function returns several more features described as under:</p>
@@ -625,8 +638,8 @@ Decomposition methods
 </div>
 </section>
 </section>
-<section id="moving-averages." class="level2 page-columns page-full" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="moving-averages."><span class="header-section-number">6</span> Moving averages.</h2>
+<section id="moving-averages." class="level2 page-columns page-full" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="moving-averages."><span class="header-section-number">7</span> Moving averages.</h2>
 
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="callout callout-style-default callout-note callout-titled">
